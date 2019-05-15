@@ -10,13 +10,25 @@
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
-
+import './scrollAnimate.js';
+import '@polymer/neon-animation/neon-animation';
 class Home extends PolymerElement {
   static get template() {
     return html`
       <style include="shared-styles">
         :host {
           display: block;
+        }
+        .card {
+          padding: 0;
+        }
+        .card > img {
+          width:100%;
+          height:200px;
+          object-fit:cover;
+        }
+        .card > .content {
+          padding : 10px;
         }
         .header {
           background-image: url('images/7ekvXy.jpg');
@@ -62,7 +74,46 @@ class Home extends PolymerElement {
       <div class="header">
         <img src="images/anfas1.png" />
       </div>
+
+      
+      <div class="card">
+        <img src="images/IMG_1.jpg" />
+        <div class="content">
+        <h1>چشم انداز</h1>
+        <p>توسعه فردی متوازن در تمام ابعاد زندگی</p>
+        </div>
+      </div>
+
+      
+      <div class="card">
+      <img src="images/IMG_2.jpg" />
+      <div class="content">
+        <h1>ماموریت</h1>
+        <p>ترویج تفکر ارزشی و فرآهم کردن فرصت کسب مهارت های اساسی زندگی بر پایه خودآگاهی و درک رابطه خود با جهان هستی</p>
+      </div>
+      </div>
+
+      
+      <div class="card">
+      <img src="images/IMG_3.jpg" />
+      <div class="content">
+        <h1>اهداف</h1>
+        <p>کاهش آسیب های اجتماعی بحرانی با ارائه و اجرای راه حل ها در حوزه آسیب های اجتماعی بنیادین 
+   <br />     ایجاد انگیزه برای تغییر و توسعه فردی در جوانان 
+   <br />     ترویج هدفگذاری صحیح در بین جوانان 
+   <br />     ارائه و آموزش شیوه های مدرن تغییر و توسعه فردی 
+   <br />     آموزش مهارت های اساسی زندگی به کودکان و نوجوانان از طریق تغییر رفتار والدین</p>
+      </div>
+      </div>
     `;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+  }
+
+  ready() {
+    super.ready();
   }
 }
 

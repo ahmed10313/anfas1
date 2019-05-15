@@ -18,7 +18,6 @@ import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/neon-animation/neon-animation';
-import '@polymer/app-layout/app-scroll-effects/app-scroll-effects';
 import '@polymer/paper-icon-button/paper-icon-button';
 import '@polymer/app-layout/app-layout-behavior/app-layout-behavior';
 import '@polymer/paper-button/paper-button';
