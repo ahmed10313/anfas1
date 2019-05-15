@@ -30,6 +30,10 @@ class Home extends PolymerElement {
         .card > .content {
           padding : 10px;
         }
+        .card > .action {
+          padding : 10px;
+          text-align:left;
+        }
         .header {
           background-image: url('images/7ekvXy.jpg');
           background-size: cover;
@@ -57,6 +61,10 @@ class Home extends PolymerElement {
             width:25%;
             margin: 20vh calc(20%/2);
           }
+          .card {
+            width:29%;
+            display:inline-block;
+          }
         }
         @media(min-width:1440px){
           .header > img {
@@ -81,6 +89,10 @@ class Home extends PolymerElement {
         <div class="content">
         <h1>چشم انداز</h1>
         <p>توسعه فردی متوازن در تمام ابعاد زندگی</p>
+        <br /><br /><br /><br /><br /><br />
+        </div>
+        <div class="action">
+        <paper-button>بیشتر</paper-button>
         </div>
       </div>
 
@@ -90,6 +102,10 @@ class Home extends PolymerElement {
       <div class="content">
         <h1>ماموریت</h1>
         <p>ترویج تفکر ارزشی و فرآهم کردن فرصت کسب مهارت های اساسی زندگی بر پایه خودآگاهی و درک رابطه خود با جهان هستی</p>
+        <br /><br /><br /><br /><br /><br />
+        <div class="action">
+        <paper-button>بیشتر</paper-button>
+        </div>
       </div>
       </div>
 
@@ -103,6 +119,9 @@ class Home extends PolymerElement {
    <br />     ترویج هدفگذاری صحیح در بین جوانان 
    <br />     ارائه و آموزش شیوه های مدرن تغییر و توسعه فردی 
    <br />     آموزش مهارت های اساسی زندگی به کودکان و نوجوانان از طریق تغییر رفتار والدین</p>
+      </div>
+      <div class="action">
+      <paper-button>بیشتر</paper-button>
       </div>
       </div>
     `;
