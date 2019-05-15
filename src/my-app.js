@@ -11,16 +11,19 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { setPassiveTouchGestures, setRootPath } from '@polymer/polymer/lib/utils/settings.js';
 import '@polymer/app-layout/app-drawer/app-drawer.js';
-import '@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
-import '@polymer/app-layout/app-header/app-header.js';
-import '@polymer/app-layout/app-header-layout/app-header-layout.js';
 import '@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
-import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/app-route/app-location.js';
 import '@polymer/app-route/app-route.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
+import '@polymer/neon-animation/neon-animation';
+import '@polymer/app-layout/app-scroll-effects/app-scroll-effects';
+import '@polymer/paper-icon-button/paper-icon-button';
+import '@polymer/app-layout/app-layout-behavior/app-layout-behavior';
+import '@polymer/paper-button/paper-button';
+import '@cute/cute-toolbar/cute-toolbar';
+import '@polymer/paper-spinner/paper-spinner';
 import './my-icons.js';
 
 // Gesture events like tap and track generated from touch will not be
@@ -34,43 +37,95 @@ setRootPath(MyAppGlobals.rootPath);
 class MyApp extends PolymerElement {
   static get template() {
     return html`
-      <style>
-        :host {
-          --app-primary-color: #4285f4;
-          --app-secondary-color: black;
-
-          display: block;
+      <style>   :host {
+        display: block;
+        --cute-toolbar-background: #FFF;
+        --paper-tabs-selection-bar-color: var(--paper-light-blue-100);
+      }
+      .red,home-app {
+        width:100%;
+        height:300px;
+      }
+      h3{
+        font-size:18px;
+        margin:10px 20px;
+      }
+      h3 > p {
+        font-size:10px;
+        color:#555;
+        display:inline-block;
+        padding: auto 10px;
+      }
+      app-drawer{
+        z-index:2000
+      }
+      #fixed {
+        height:40px;
+        display:block;
+      }
+      .tool{
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-flow: row wrap;
+        flex-flow: row wrap;
+        justify-content:flex-start;
+        align-items:center;
+        margin:auto 15px;
+      }
+      .tool > img {
+        object-fit:cover;
+        height: 30px;
+        margin:auto 15px
+      }
+      .tool > div {
+        text-align:left;
+        -webkit-flex: 1 auto;
+        flex: 1 auto;
+        padding:15px 5px;
+      }
+      #banner {
+        width:100%;
+        box-shadow:0 0 5px #222;
+      }
+      .hidden{
+        opacity:0;
+      }
+      cute-toolbar{
+        --cute-toolbar-tall : 50 px;
+      }
+      iron-selector > *{
+        display:block;
+      }
+      #prof {
+        width:90%;
+        margin:30px 5%;
+        object-fit:cover;
+  
+      }
+      .footer{
+        position: relative;
+        padding:30px;
+        text-align:center;
+        box-shadow:0 0 5px #222;
+        background-color:#888;
+      }
+      paper-spinner {
+        display:block;
+        margin: 10vh auto;
+      }
+      app-drawer{
+        --app-drawer-content-container: {
+          background-color: #eee;
         }
-
-        app-drawer-layout:not([narrow]) [drawer-toggle] {
-          display: none;
+      }
+      @media(max-width:600px){
+        cute-toolbar{
+          --cute-toolbar-tall : 50 px;
         }
-
-        app-header {
-          color: #fff;
-          background-color: var(--app-primary-color);
-        }
-
-        app-header paper-icon-button {
-          --paper-icon-button-ink-color: white;
-        }
-
-        .drawer-list {
-          margin: 0 20px;
-        }
-
-        .drawer-list a {
-          display: block;
-          padding: 0 16px;
-          text-decoration: none;
-          color: var(--app-secondary-color);
-          line-height: 40px;
-        }
-
-        .drawer-list a.iron-selected {
-          color: black;
-          font-weight: bold;
-        }
+      .tool > div {
+        display:none
+      }
+      }
       </style>
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
@@ -79,35 +134,48 @@ class MyApp extends PolymerElement {
       <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
       </app-route>
 
-      <app-drawer-layout fullbleed="" narrow="{{narrow}}">
-        <!-- Drawer content -->
-        <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
-          <app-toolbar>Menu</app-toolbar>
-          <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-            <a name="view1" href="[[rootPath]]view1">View One</a>
-            <a name="view2" href="[[rootPath]]view2">View Two</a>
-            <a name="view3" href="[[rootPath]]view3">View Three</a>
-          </iron-selector>
-        </app-drawer>
-
         <!-- Main content -->
-        <app-header-layout has-scrolling-region="">
 
-          <app-header slot="header" condenses="" reveals="" effects="waterfall">
-            <app-toolbar>
-              <paper-icon-button icon="my-icons:menu" drawer-toggle=""></paper-icon-button>
-              <div main-title="">My App</div>
-            </app-toolbar>
-          </app-header>
+        <cute-toolbar fixed animated shadow>
+        <div class="tool">
+        <paper-icon-button icon="my-icons:menu" on-click="toggle"></paper-icon-button>
+          
+        <h3>انفاس
+        <p>موسسه فرهنگی اجتماعی</p>
+        </h3>   
+          <div>
+          <paper-button>ثبت نام در سمن انفاس</paper-button>
+          </div> 
+        </div>
+        </cute-toolbar>
+        <div id="fixed"></div>
 
-          <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
-            <my-view1 name="view1"></my-view1>
-            <my-view2 name="view2"></my-view2>
-            <my-view3 name="view3"></my-view3>
-            <my-view404 name="view404"></my-view404>
-          </iron-pages>
-        </app-header-layout>
-      </app-drawer-layout>
+
+
+
+        <neon-animated-pages class="flex" 
+        selected='{{page}}'
+        attr-for-selected='name'
+        entry-animation='slide-from-left-animation'
+        exit-animation='slide-right-animation'>
+          
+        <home-page name="home"><paper-spinner active></paper-spinner></home-page>
+        <my-view2 name="edu"><paper-spinner active></paper-spinner></my-view2>
+        <blog-page name="blog"><paper-spinner active></paper-spinner></blog-page>
+        <my-view404 name="view404"><paper-spinner active></paper-spinner></my-view404>
+      
+        </neon-animated-pages>
+
+       
+<app-drawer id="drawer" align="right" swipe-open>
+<img src="images/anfas.png" id="prof"/>
+<iron-selector selected="{{routeData.page}}" attr-for-selected="href">
+<paper-button href="home">صفحه اصلی</paper-button>
+<paper-button href="edu">دوره ها و کارگاه ها</paper-button>
+<paper-button href="blog">مطالب</paper-button>
+<paper-button >درباره ما</paper-button>
+</iron-selector>
+</app-drawer>
     `;
   }
 
@@ -135,17 +203,14 @@ class MyApp extends PolymerElement {
      // If no page was found in the route data, page will be an empty string.
      // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
-      this.page = 'view1';
-    } else if (['view1', 'view2', 'view3'].indexOf(page) !== -1) {
+      this.page = 'home';
+    } else if (['home', 'edu', 'blog'].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = 'view404';
     }
 
-    // Close a non-persistent drawer when the page & route are changed.
-    if (!this.$.drawer.persistent) {
       this.$.drawer.close();
-    }
   }
 
   _pageChanged(page) {
@@ -154,19 +219,28 @@ class MyApp extends PolymerElement {
     // Note: `polymer build` doesn't like string concatenation in the import
     // statement, so break it up.
     switch (page) {
-      case 'view1':
-        import('./my-view1.js');
+      case 'home':
+        import('./home-page.js');
         break;
-      case 'view2':
+      case 'edu':
         import('./my-view2.js');
         break;
-      case 'view3':
+      case 'blog':
+        import('./blog-page.js');
+        break;
+      case 'about':
         import('./my-view3.js');
         break;
       case 'view404':
         import('./my-view404.js');
         break;
     }
+  }
+
+  toggle()
+  {
+    this.$.drawer.toggle();
+    console.log("togled")
   }
 }
 
