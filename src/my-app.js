@@ -96,8 +96,8 @@ class MyApp extends PolymerElement {
         display:block;
       }
       #prof {
-        width:90%;
-        margin:30px 5%;
+        width:60%;
+        margin:30px 20%;
         object-fit:cover;
   
       }
@@ -143,7 +143,7 @@ class MyApp extends PolymerElement {
         <p>موسسه فرهنگی اجتماعی</p>
         </h3>   
           <div>
-          <paper-button>ثبت نام در سمن انفاس</paper-button>
+          <paper-button on-click="goto">ثبت نام در سمن انفاس</paper-button>
           </div> 
         </div>
         </cute-toolbar>
@@ -228,7 +228,6 @@ class MyApp extends PolymerElement {
         import('./blog-page.js');
         break;
       case 'about':
-        import('./my-view3.js');
         break;
       case 'view404':
         import('./my-view404.js');
@@ -239,7 +238,10 @@ class MyApp extends PolymerElement {
   toggle()
   {
     this.$.drawer.toggle();
-    console.log("togled")
+  }
+
+  goto(){
+    window.location = "http://register.anfas1.org/";
   }
 }
 

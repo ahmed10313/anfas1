@@ -20,7 +20,7 @@ class MyView404 extends PolymerElement {
           padding: 10px 20px;
         }
       </style>
-
+      <br /><br /><br /><br /><br />
       Oops you hit a 404. <a href="[[rootPath]]">Head back to home.</a>
     `;
   }

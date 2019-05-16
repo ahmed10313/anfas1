@@ -21,11 +21,19 @@ class Home extends PolymerElement {
         }
         .card {
           padding: 0;
+          position:relative;
+        }
+        .card > .img{
+          width:100%;
+          height:200px;
+          background: linear-gradient(to right, rgb(255, 222, 114), #da1717);
+          position:absolute
         }
         .card > img {
           width:100%;
           height:200px;
           object-fit:cover;
+          mix-blend-mode: luminosity
         }
         .card > .content {
           padding : 10px;
@@ -85,6 +93,7 @@ class Home extends PolymerElement {
 
       
       <div class="card">
+        <div class="img"></div>
         <img src="images/IMG_1.jpg" />
         <div class="content">
         <h1>چشم انداز</h1>
@@ -98,6 +107,7 @@ class Home extends PolymerElement {
 
       
       <div class="card">
+      <div class="img"></div>
       <img src="images/IMG_2.jpg" />
       <div class="content">
         <h1>ماموریت</h1>
@@ -111,6 +121,7 @@ class Home extends PolymerElement {
 
       
       <div class="card">
+      <div class="img"></div>
       <img src="images/IMG_3.jpg" />
       <div class="content">
         <h1>اهداف</h1>
