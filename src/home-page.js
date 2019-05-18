@@ -26,7 +26,7 @@ class Home extends PolymerElement {
         .card > .img{
           width:100%;
           height:200px;
-          background: linear-gradient(to right, rgb(255, 222, 114), #da1717);
+          background: linear-gradient(to right, orange, black);
           position:absolute
         }
         .card > img {
@@ -62,6 +62,11 @@ class Home extends PolymerElement {
           .header > img {
             width:30%;
             margin: 20vh calc(20%/2);
+          }
+          .card {
+            width:30%;
+            margin:25px calc(9%/6);
+            display:inline-block;
           }
         }
         @media(min-width:1024px){
@@ -112,11 +117,11 @@ class Home extends PolymerElement {
       <div class="content">
         <h1>ماموریت</h1>
         <p>ترویج تفکر ارزشی و فرآهم کردن فرصت کسب مهارت های اساسی زندگی بر پایه خودآگاهی و درک رابطه خود با جهان هستی</p>
-        <br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        </div>
         <div class="action">
         <paper-button>بیشتر</paper-button>
         </div>
-      </div>
       </div>
 
       

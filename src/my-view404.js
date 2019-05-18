@@ -16,12 +16,31 @@ class MyView404 extends PolymerElement {
       <style>
         :host {
           display: block;
-
           padding: 10px 20px;
+          text-align:center;
+        }
+        .box{
+          margin-top:30vh;
+        }
+        a {
+          color:#555;
+          text-decoration:none
+        }
+        h1 {
+          font-size:100px;
+          color:#777;
+          line-height:5px
+        }
+        p{
+          color:#777;
         }
       </style>
-      <br /><br /><br /><br /><br />
-      Oops you hit a 404. <a href="[[rootPath]]">Head back to home.</a>
+      <div class="box">
+        <h1>404</h1>
+        <p>متاسفانه صفحه مورد نظر یافت نشد. 
+        <a href="[[rootPath]]">بازگشت به صفحه اصلی</a></p>
+        <h2>😕</h2>
+      </div>
     `;
   }
 }

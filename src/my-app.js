@@ -125,6 +125,11 @@ class MyApp extends PolymerElement {
         display:none
       }
       }
+      @media(min-width:600px){
+        #menu{
+          display:none
+        }
+      }
       </style>
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
@@ -137,13 +142,16 @@ class MyApp extends PolymerElement {
 
         <cute-toolbar fixed animated shadow>
         <div class="tool">
-        <paper-icon-button icon="my-icons:menu" on-click="toggle"></paper-icon-button>
+        <paper-icon-button id="menu" icon="my-icons:menu" on-click="toggle"></paper-icon-button>
           
         <h3>انفاس
         <p>موسسه فرهنگی اجتماعی</p>
         </h3>   
           <div>
           <paper-button on-click="goto">ثبت نام در سمن انفاس</paper-button>
+          <paper-button>کارگاه های اموزشی</paper-button>
+          <paper-button>بلاگ</paper-button>
+          <paper-button>درباره ما</paper-button>
           </div> 
         </div>
         </cute-toolbar>
