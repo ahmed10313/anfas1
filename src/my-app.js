@@ -92,7 +92,7 @@ class MyApp extends PolymerElement {
       cute-toolbar{
         --cute-toolbar-tall : 50 px;
       }
-      iron-selector > *{
+      iron-selector#dra > *{
         display:block;
       }
       #prof {
@@ -148,10 +148,13 @@ class MyApp extends PolymerElement {
         <p>موسسه فرهنگی اجتماعی</p>
         </h3>   
           <div>
+          <iron-selector selected="{{routeData.page}}" attr-for-selected="href" id="#dra">
+          <paper-button href="home">صفحه اصلی</paper-button>
+          <paper-button href="edu">دوره ها و کارگاه ها</paper-button>
+          <paper-button href="blog">مطالب</paper-button>
           <paper-button on-click="goto">ثبت نام در سمن انفاس</paper-button>
-          <paper-button>کارگاه های اموزشی</paper-button>
-          <paper-button>بلاگ</paper-button>
           <paper-button>درباره ما</paper-button>
+          </iron-selector>
           </div> 
         </div>
         </cute-toolbar>
@@ -167,13 +170,15 @@ class MyApp extends PolymerElement {
         exit-animation='slide-right-animation'>
           
         <home-page name="home"><paper-spinner active></paper-spinner></home-page>
-        <my-view2 name="edu"><paper-spinner active></paper-spinner></my-view2>
+        <edu-page name="edu"><paper-spinner active></paper-spinner></edu-page>
         <blog-page name="blog"><paper-spinner active></paper-spinner></blog-page>
+        <login-page name="login"><paper-spinner active></paper-spinner></login-page>
+
+
         <my-view404 name="view404"><paper-spinner active></paper-spinner></my-view404>
-      
+
         </neon-animated-pages>
 
-       
 <app-drawer id="drawer" align="right" swipe-open>
 <img src="images/anfas.png" id="prof"/>
 <iron-selector selected="{{routeData.page}}" attr-for-selected="href">
@@ -211,7 +216,7 @@ class MyApp extends PolymerElement {
      // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
       this.page = 'home';
-    } else if (['home', 'edu', 'blog'].indexOf(page) !== -1) {
+    } else if (['home', 'edu', 'blog', 'login'].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = 'view404';
@@ -230,12 +235,13 @@ class MyApp extends PolymerElement {
         import('./home-page.js');
         break;
       case 'edu':
-        import('./my-view2.js');
+        import('./edu-page.js');
         break;
       case 'blog':
         import('./blog-page.js');
         break;
-      case 'about':
+      case 'login':
+        import('./login.js');
         break;
       case 'view404':
         import('./my-view404.js');

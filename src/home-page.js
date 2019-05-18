@@ -10,7 +10,8 @@
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
-import './scrollAnimate.js';
+import './edu-page'
+import '@cute/cute-card/cute-card'
 import '@polymer/neon-animation/neon-animation';
 class Home extends PolymerElement {
   static get template() {
@@ -19,26 +20,26 @@ class Home extends PolymerElement {
         :host {
           display: block;
         }
-        .card {
+        h2{
+          padding:50px 2% 0px;
+        }
+        cute-card {
           padding: 0;
           position:relative;
         }
-        .card > .img{
+        cute-card > .img{
           width:100%;
           height:200px;
           background: linear-gradient(to right, orange, black);
           position:absolute
         }
-        .card > img {
+        cute-card > img {
           width:100%;
           height:200px;
           object-fit:cover;
           mix-blend-mode: luminosity
         }
-        .card > .content {
-          padding : 10px;
-        }
-        .card > .action {
+        cute-card > .card-action {
           padding : 10px;
           text-align:left;
         }
@@ -63,7 +64,7 @@ class Home extends PolymerElement {
             width:30%;
             margin: 20vh calc(20%/2);
           }
-          .card {
+          cute-card {
             width:30%;
             margin:25px calc(9%/6);
             display:inline-block;
@@ -74,7 +75,7 @@ class Home extends PolymerElement {
             width:25%;
             margin: 20vh calc(20%/2);
           }
-          .card {
+          cute-card {
             width:29%;
             display:inline-block;
           }
@@ -97,38 +98,38 @@ class Home extends PolymerElement {
       </div>
 
       
-      <div class="card">
+      <cute-card animated>
         <div class="img"></div>
         <img src="images/IMG_1.jpg" />
-        <div class="content">
+        <div class="card-content">
         <h1>چشم انداز</h1>
         <p>توسعه فردی متوازن در تمام ابعاد زندگی</p>
         <br /><br /><br /><br /><br /><br />
         </div>
-        <div class="action">
+        <div class="card-action">
         <paper-button>بیشتر</paper-button>
         </div>
-      </div>
+      </cute-card>
 
       
-      <div class="card">
+      <cute-card animated>
       <div class="img"></div>
       <img src="images/IMG_2.jpg" />
-      <div class="content">
+      <div class="card-content">
         <h1>ماموریت</h1>
         <p>ترویج تفکر ارزشی و فرآهم کردن فرصت کسب مهارت های اساسی زندگی بر پایه خودآگاهی و درک رابطه خود با جهان هستی</p>
         <br /><br /><br /><br /><br />
         </div>
-        <div class="action">
+        <div class="card-action">
         <paper-button>بیشتر</paper-button>
         </div>
-      </div>
+      </cute-card>
 
       
-      <div class="card">
+      <cute-card animated>
       <div class="img"></div>
       <img src="images/IMG_3.jpg" />
-      <div class="content">
+      <div class="card-content">
         <h1>اهداف</h1>
         <p>کاهش آسیب های اجتماعی بحرانی با ارائه و اجرای راه حل ها در حوزه آسیب های اجتماعی بنیادین 
    <br />     ایجاد انگیزه برای تغییر و توسعه فردی در جوانان 
@@ -136,10 +137,15 @@ class Home extends PolymerElement {
    <br />     ارائه و آموزش شیوه های مدرن تغییر و توسعه فردی 
    <br />     آموزش مهارت های اساسی زندگی به کودکان و نوجوانان از طریق تغییر رفتار والدین</p>
       </div>
-      <div class="action">
+      <div class="card-action">
       <paper-button>بیشتر</paper-button>
       </div>
-      </div>
+      </cute-card>
+
+
+
+      <h2>کارگاه های اموزشی</h2>
+      <edu-page></edu-page>
     `;
   }
 
