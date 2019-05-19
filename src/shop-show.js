@@ -12,22 +12,23 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js'
 import '@cute/cute-card/cute-card'
 import '@polymer/iron-ajax/iron-ajax'
-import '@cute/cute-helpers/loaders/lazy-placeholder'
-import '@polymer/iron-scroll-threshold/iron-scroll-threshold.js';
+import '@polymer/paper-spinner/paper-spinner';
+import '@polymer/app-route/app-location.js'
+import '@polymer/app-route/app-route.js'
 
-class Blog extends PolymerElement {
+class Shop extends PolymerElement {
   constructor(){
     super();
     this.posts = []
     this.loading = true
-    this.last = false
   }
   static get properties(){
     return{
       posts : {type: Object},
       loading : {type: Boolean},
       req : {type:Number, value:0},
-      last : Boolean
+      routeData: Object,
+      subroute: Object
     }
   }
   static get template() {
@@ -41,20 +42,18 @@ class Blog extends PolymerElement {
           margin:25px 5%;
           display:inline-block;
         }
-        cute-card > img {
+        .img {
           width:100%;
+          height:100%;
           object-fit:cover;
         }
         .card-action{
-          text-align:left;
+          text-align:center;
         }
         .head{
-          height:70vh;
+          height:85vh;
           width:100%;
-          background-image: url('images/blog.jpg');
-          background-size:cover;
-          background-position: center;
-          box-shadow:0 0 15px #333;
+          box-shadow:0 0 10px #333;
         }
         .con{
           width:100%;
@@ -65,28 +64,49 @@ class Blog extends PolymerElement {
         color:#444;
       }
         .load{
-          height:400px;
+          height:200px;
           padding:0
         }
+        
+      paper-spinner {
+        display:block;
+        margin: 20vh auto;
+      }
         @media(min-width:700px){
           cute-card{
-            width:30%;
-            margin:25px calc(10%/7);
+            width:70%;
+            margin:25px calc(10%/2);
+            margin-left: 2.5%;
+            float:right;
+            display:block;
+          }
+          #link{
+              
+            width:15%;
+            margin:25px calc(10%/2);
+            margin-right: 0%;
+          }
+          #link *{
+              display:block;
           }
           .load{
             display:inline-block;
-            height:400px;
+            height:200px;
             width:30%;
             margin:25px calc(10%/7);
             padding:0
           }
         }
       </style>
-      <div class="head"></div>
-      <div class="con">
+      
+      <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
+      </app-location>
+
+      <app-route route="{{route}}" pattern="[[rootPath]]:page/:id" data="{{routeData}}" tail="{{subroute}}">
+      </app-route>
       <iron-ajax
-          id="ajax"
-          url="http://api.anfas1.org/blog/?req={{req}}"
+          auto
+          url="http://api.anfas1.org/workshop/?req={{routeData.id}}"
           handle-as="json"
           on-response="handleResponse"
           debounce-duration="300"
@@ -94,73 +114,55 @@ class Blog extends PolymerElement {
       </iron-ajax>
 
       <template is="dom-repeat" items="[[posts]]">
-      <cute-card animated>
-      <img src="[[item.image]]" />
+      
+      <div class="head"><img src="[[item.image]]" class="img"/></div>
+      <div class="con">
+      <cute-card id="cont">
         <div class="card-content">
         <h1>[[item.topic]]</h1>
-        <p>[[item.summ]]</p>
+        <p>[[item.body]]</p>
         </div>
         <div class="card-action">
-          <a href="post/[[item.ID]]"><paper-button>بیشتر</paper-button></a>
         </div>
       </cute-card>
+      
+      <cute-card id="link">
+      <div class="card-content">
+      <h3>لیست جلسات :</h3>
+      <paper-button>جلسه 1</paper-button>
+      <paper-button>جلسه 2</paper-button>
+      <paper-button>جلسه 3</paper-button>
+      <paper-button>جلسه 4</paper-button>
+      <paper-button>جلسه 5</paper-button>
+      <paper-button>جلسه 6</paper-button>
+      <paper-button>جلسه 7</paper-button>
+      <paper-button>جلسه 8</paper-button>
+      <paper-button>جلسه 9</paper-button>
+      <paper-button>جلسه 10</paper-button>
+      <paper-button>جلسه 11</paper-button>
+      </div>
+      </cute-card>
+      </div>
       </template>
 
       
 <template is="dom-if" if="{{loading}}">
-<div class="card load"><lazy-placeholder></lazy-placeholder></div>
-<div class="card load"><lazy-placeholder></lazy-placeholder></div>
-<div class="card load"><lazy-placeholder></lazy-placeholder></div>
+<paper-spinner active></paper-spinner>
 </template>
 
-<iron-scroll-threshold scroll-target="document" on-lower-threshold="loadMoreData" id="threshold">
-
-</iron-scroll-threshold>
-</div>
     `;
   }
 
   handleResponse(res){
     if(res.detail.__data.response != null)
     {
-    this.last=false;
-    this.loaded(res.detail.__data.response)
-    if(res.detail.__data.response[2] != null) this.req = res.detail.__data.response[2].ID
-    else{
-    if(res.detail.__data.response[1] != null) this.req = res.detail.__data.response[1].ID
-    else{
-    if(res.detail.__data.response[0] != null) this.req = res.detail.__data.response[0].ID
-    }
-    }
+    this.posts = res.detail.__data.response
     }
     else{
-      this.last= true
+
     }
     
   }
-  
-  loadMoreData(){
-    if(!this.last)this.$.ajax.generateRequest();
-    setTimeout(() => {
-      this.$.threshold.clearTriggers();
-    }, 2000);
-  }
-  
-  loaded(e) {
-    if(!this.last)
-    {
-    var self = this;
-    var people = e;
-    people.forEach(function(element) 
-    {
-      self.push('posts', element)
-    });
-  }
-  }
-  connectedCallback() {
-    super.connectedCallback();
-    this.loadMoreData()
-  }
 }
 
-window.customElements.define('blog-page', Blog);
+window.customElements.define('shop-show', Shop);

@@ -172,6 +172,10 @@ class MyApp extends PolymerElement {
         <home-page name="home"><paper-spinner active></paper-spinner></home-page>
         <edu-page name="edu"><paper-spinner active></paper-spinner></edu-page>
         <blog-page name="blog"><paper-spinner active></paper-spinner></blog-page>
+        <post-show name="post"><paper-spinner active></paper-spinner></post-show>
+        <shop-show name="shop"><paper-spinner active></paper-spinner></shop-show>
+
+
         <login-page name="login"><paper-spinner active></paper-spinner></login-page>
 
 
@@ -181,7 +185,7 @@ class MyApp extends PolymerElement {
 
 <app-drawer id="drawer" align="right" swipe-open>
 <img src="images/anfas.png" id="prof"/>
-<iron-selector selected="{{routeData.page}}" attr-for-selected="href">
+<iron-selector selected="{{routeData.page}}" attr-for-selected="href" id="dra">
 <paper-button href="home">صفحه اصلی</paper-button>
 <paper-button href="edu">دوره ها و کارگاه ها</paper-button>
 <paper-button href="blog">مطالب</paper-button>
@@ -216,7 +220,7 @@ class MyApp extends PolymerElement {
      // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
       this.page = 'home';
-    } else if (['home', 'edu', 'blog', 'login'].indexOf(page) !== -1) {
+    } else if (['home', 'edu', 'blog', 'login', 'post', 'shop'].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = 'view404';
@@ -239,6 +243,12 @@ class MyApp extends PolymerElement {
         break;
       case 'blog':
         import('./blog-page.js');
+        break;
+      case 'post':
+        import('./post-show.js');
+        break;
+      case 'shop':
+        import('./shop-show.js');
         break;
       case 'login':
         import('./login.js');

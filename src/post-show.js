@@ -12,17 +12,23 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js'
 import '@cute/cute-card/cute-card'
 import '@polymer/iron-ajax/iron-ajax'
-import '@cute/cute-helpers/loaders/lazy-placeholder'
-class EDU extends PolymerElement {
+import '@polymer/paper-spinner/paper-spinner';
+import '@polymer/app-route/app-location.js'
+import '@polymer/app-route/app-route.js'
+
+class Post extends PolymerElement {
   constructor(){
     super();
-    this.shops = []
-    this.loasd = true
+    this.posts = []
+    this.loading = true
   }
   static get properties(){
     return{
-      shops : {type: Object},
-      loading : {type: Boolean}
+      posts : {type: Object},
+      loading : {type: Boolean},
+      req : {type:Number, value:0},
+      routeData: Object,
+      subroute: Object
     }
   }
   static get template() {
@@ -36,20 +42,22 @@ class EDU extends PolymerElement {
           margin:25px 5%;
           display:inline-block;
         }
-        cute-card > img {
+        .img {
           width:100%;
+          height:100%;
           object-fit:cover;
         }
         .card-action{
-          text-align:left;
+          text-align:center;
         }
         .head{
-          height:30px;
+          height:85vh;
           width:100%;
+          box-shadow:0 0 10px #333;
         }
-        .card-content > p{
-          height:100px;
-          overflow: hidden;
+        .con{
+          width:100%;
+          margin-top: -35vh;
         }
       a{
         text-decoration: none;
@@ -59,10 +67,15 @@ class EDU extends PolymerElement {
           height:200px;
           padding:0
         }
+        
+      paper-spinner {
+        display:block;
+        margin: 20vh auto;
+      }
         @media(min-width:700px){
           cute-card{
-            width:30%;
-            margin:25px calc(10%/7);
+            width:90%;
+            margin:25px calc(10%/2);
           }
           .load{
             display:inline-block;
@@ -73,42 +86,55 @@ class EDU extends PolymerElement {
           }
         }
       </style>
-      <div class="head"></div>
       
+      <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
+      </app-location>
+
+      <app-route route="{{route}}" pattern="[[rootPath]]:page/:id" data="{{routeData}}" tail="{{subroute}}">
+      </app-route>
       <iron-ajax
           auto
-          url="http://api.anfas1.org/workshop/"
+          url="http://api.anfas1.org/blog/post.php?req={{routeData.id}}"
           handle-as="json"
           on-response="handleResponse"
           debounce-duration="300"
           loading="{{loading}}">
       </iron-ajax>
 
-      <template is="dom-repeat" items="[[shops]]">
+      <template is="dom-repeat" items="[[posts]]">
+      
+      <div class="head"><img src="[[item.image]]" class="img"/></div>
+      <div class="con">
       <cute-card animated>
-      <img src="[[item.image]]" />
         <div class="card-content">
         <h1>[[item.topic]]</h1>
         <p>[[item.body]]</p>
         </div>
         <div class="card-action">
-          <a href="shop/[[item.id]]"><paper-button>بیشتر</paper-button></a>
+          <p> نوشته شده در تاریخ [[item.date]]</p>
         </div>
       </cute-card>
+      </div>
       </template>
 
       
 <template is="dom-if" if="{{loading}}">
-<div class="card load"><lazy-placeholder></lazy-placeholder></div>
-<div class="card load"><lazy-placeholder></lazy-placeholder></div>
-<div class="card load"><lazy-placeholder></lazy-placeholder></div>
+<paper-spinner active></paper-spinner>
 </template>
+
     `;
   }
 
   handleResponse(res){
-    this.shops = res.detail.__data.response
+    if(res.detail.__data.response != null)
+    {
+    this.posts = res.detail.__data.response
+    }
+    else{
+
+    }
+    
   }
 }
 
-window.customElements.define('edu-page', EDU);
+window.customElements.define('post-show', Post);
