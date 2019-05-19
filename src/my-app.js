@@ -24,6 +24,7 @@ import '@polymer/paper-button/paper-button';
 import '@cute/cute-toolbar/cute-toolbar';
 import '@polymer/paper-spinner/paper-spinner';
 import './my-icons.js';
+import '@polymer/iron-ajax/iron-ajax'
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -154,6 +155,7 @@ class MyApp extends PolymerElement {
           <paper-button href="blog">مطالب</paper-button>
           <paper-button on-click="goto">ثبت نام در سمن انفاس</paper-button>
           <paper-button>درباره ما</paper-button>
+          <paper-button href="cms">ناحیه کاربری</paper-button>
           </iron-selector>
           </div> 
         </div>
@@ -178,7 +180,7 @@ class MyApp extends PolymerElement {
 
 
         <login-page name="login"><paper-spinner active></paper-spinner></login-page>
-
+        <dashboard-app name="cms"><paper-spinner active></paper-spinner></dashboard-app>
 
         <my-view404 name="view404"><paper-spinner active></paper-spinner></my-view404>
 
@@ -190,7 +192,9 @@ class MyApp extends PolymerElement {
 <paper-button href="home">صفحه اصلی</paper-button>
 <paper-button href="edu">دوره ها و کارگاه ها</paper-button>
 <paper-button href="blog">مطالب</paper-button>
-<paper-button >درباره ما</paper-button>
+<paper-button on-click="goto">ثبت نام در سمن انفاس</paper-button>
+<paper-button>درباره ما</paper-button>
+<paper-button href="cms">ناحیه کاربری</paper-button>
 </iron-selector>
 </app-drawer>
     `;
@@ -221,7 +225,7 @@ class MyApp extends PolymerElement {
      // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
       this.page = 'home';
-    } else if (['home', 'edu', 'blog', 'login', 'post', 'shop', 'class'].indexOf(page) !== -1) {
+    } else if (['home', 'edu', 'blog', 'login', 'post', 'shop', 'class', 'cms'].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = 'view404';
@@ -231,10 +235,7 @@ class MyApp extends PolymerElement {
   }
 
   _pageChanged(page) {
-    // Import the page component on demand.
-    //
-    // Note: `polymer build` doesn't like string concatenation in the import
-    // statement, so break it up.
+    
     switch (page) {
       case 'home':
         import('./home-page.js');
@@ -257,6 +258,9 @@ class MyApp extends PolymerElement {
       case 'login':
         import('./login.js');
         break;
+      case 'cms':
+         import('./dashboard.js');
+        break;
       case 'view404':
         import('./my-view404.js');
         break;
@@ -271,6 +275,7 @@ class MyApp extends PolymerElement {
   goto(){
     window.location = "http://register.anfas1.org/";
   }
+
 }
 
 window.customElements.define('my-app', MyApp);
