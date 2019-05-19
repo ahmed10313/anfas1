@@ -36,7 +36,7 @@ class EDU extends PolymerElement {
           margin:25px 5%;
           display:inline-block;
         }
-        cute-card > img {
+        .img {
           width:100%;
           object-fit:cover;
         }
@@ -86,7 +86,7 @@ class EDU extends PolymerElement {
 
       <template is="dom-repeat" items="[[shops]]">
       <cute-card animated>
-      <img src="[[item.image]]" />
+      <img src="[[item.image]]" class="img"/>
         <div class="card-content">
         <h1>[[item.topic]]</h1>
         <p>[[item.body]]</p>

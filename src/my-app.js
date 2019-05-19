@@ -174,6 +174,7 @@ class MyApp extends PolymerElement {
         <blog-page name="blog"><paper-spinner active></paper-spinner></blog-page>
         <post-show name="post"><paper-spinner active></paper-spinner></post-show>
         <shop-show name="shop"><paper-spinner active></paper-spinner></shop-show>
+        <class-show name="class"><paper-spinner active></paper-spinner></class-show>
 
 
         <login-page name="login"><paper-spinner active></paper-spinner></login-page>
@@ -220,7 +221,7 @@ class MyApp extends PolymerElement {
      // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
       this.page = 'home';
-    } else if (['home', 'edu', 'blog', 'login', 'post', 'shop'].indexOf(page) !== -1) {
+    } else if (['home', 'edu', 'blog', 'login', 'post', 'shop', 'class'].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = 'view404';
@@ -249,6 +250,9 @@ class MyApp extends PolymerElement {
         break;
       case 'shop':
         import('./shop-show.js');
+        break;
+      case 'class':
+        import('./class-show.js');
         break;
       case 'login':
         import('./login.js');

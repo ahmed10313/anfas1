@@ -16,7 +16,7 @@ import '@polymer/paper-spinner/paper-spinner';
 import '@polymer/app-route/app-location.js'
 import '@polymer/app-route/app-route.js'
 
-class Shop extends PolymerElement {
+class ClassShow extends PolymerElement {
   constructor(){
     super();
     this.posts = []
@@ -43,6 +43,7 @@ class Shop extends PolymerElement {
           width:90%;
           margin:25px 5%;
           display:inline-block;
+          transition: all 0.8s ease;
         }
         .img {
           width:100%;
@@ -52,14 +53,9 @@ class Shop extends PolymerElement {
         .card-action{
           text-align:center;
         }
-        .head{
-          height:85vh;
-          width:100%;
-          box-shadow:0 0 10px #333;
-        }
         .con{
           width:100%;
-          margin-top: -15vh;
+          margin-top: 6vh;
         }
       a{
         text-decoration: none;
@@ -68,6 +64,9 @@ class Shop extends PolymerElement {
         .load{
           height:200px;
           padding:0
+        }
+        #link *{
+            display:block;
         }
         .item {
           display:block;
@@ -80,18 +79,15 @@ class Shop extends PolymerElement {
           cute-card{
             width:70%;
             margin:25px calc(10%/2);
-            margin-left: 2.5%;
+            margin-left: 1%;
             float:right;
             display:block;
           }
           #link{
-              
-            width:15%;
+            width:18%;
             margin:25px calc(10%/2);
             margin-right: 0%;
-          }
-          #link *{
-              display:block;
+              float:left;
           }
           .load{
             display:inline-block;
@@ -106,37 +102,44 @@ class Shop extends PolymerElement {
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
       </app-location>
 
-      <app-route route="{{route}}" pattern="[[rootPath]]:page/:id" data="{{routeData}}" tail="{{subroute}}">
+      <app-route route="{{route}}" pattern="[[rootPath]]:page/:id/:it" data="{{routeData}}" tail="{{subroute}}">
       </app-route>
-      <iron-ajax
-          auto
-          url="http://api.anfas1.org/workshop/?req={{routeData.id}}"
-          handle-as="json"
-          on-response="handleResponse"
-          debounce-duration="300"
-          loading="{{loading}}">
-      </iron-ajax>
+
       <iron-ajax
       auto
-      url="http://api.anfas1.org/workshop/shop/?id={{routeData.id}}"
+      url="http://api.anfas1.org/workshop/shop/?shop={{routeData.id}}&req={{routeData.it}}"
       handle-as="json"
-      on-response="handleResponseItems"
+      on-response="handleResponse"
       debounce-duration="300"
-      loading="{{itemLoading}}">
+      loading="{{loading}}">
   </iron-ajax>
+
+  <iron-ajax
+  auto
+  url="http://api.anfas1.org/workshop/shop/?id={{routeData.id}}"
+  handle-as="json"
+  on-response="handleResponseItems"
+  debounce-duration="300"
+  loading="{{itemLoading}}">
+</iron-ajax>
+
+
+
       <template is="dom-repeat" items="[[posts]]">
-      
-      <div class="head"><img src="[[item.image]]" class="img"/></div>
       <div class="con">
+      
+      <template is="dom-if" if="{{!loading}}">
       <cute-card id="cont">
         <div class="card-content">
         <h1>[[item.topic]]</h1>
         <p>[[item.body]]</p>
         </div>
         <div class="card-action">
+        <p>در تاریخ : [[item.date]]</p>
         </div>
       </cute-card>
-      
+      </template>
+
 
 
       <cute-card id="link">
@@ -154,12 +157,14 @@ class Shop extends PolymerElement {
 
       </div>
       </cute-card>
+
       </div>
 
 
 
 
-      </template>
+      
+  </template>
 
       
 <template is="dom-if" if="{{loading}}">
@@ -168,7 +173,6 @@ class Shop extends PolymerElement {
 
     `;
   }
-
   handleResponse(res){
     if(res.detail.__data.response != null)
     {
@@ -179,6 +183,7 @@ class Shop extends PolymerElement {
     }
     
   }
+  
   handleResponseItems(res){
     if(res.detail.__data.response != null)
     {
@@ -191,4 +196,4 @@ class Shop extends PolymerElement {
   }
 }
 
-window.customElements.define('shop-show', Shop);
+window.customElements.define('class-show', ClassShow);

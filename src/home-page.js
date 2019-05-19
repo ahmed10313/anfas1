@@ -33,13 +33,13 @@ class Home extends PolymerElement {
           background: linear-gradient(to right, orange, black);
           position:absolute
         }
-        cute-card > img {
+        .image {
           width:100%;
           height:200px;
           object-fit:cover;
           mix-blend-mode: luminosity
         }
-        cute-card > .card-action {
+        .card-action {
           padding : 10px;
           text-align:left;
         }
@@ -100,7 +100,7 @@ class Home extends PolymerElement {
       
       <cute-card animated>
         <div class="img"></div>
-        <img src="images/IMG_1.jpg" />
+        <img src="images/IMG_1.jpg" class="image"/>
         <div class="card-content">
         <h1>چشم انداز</h1>
         <p>توسعه فردی متوازن در تمام ابعاد زندگی</p>
@@ -114,7 +114,7 @@ class Home extends PolymerElement {
       
       <cute-card animated>
       <div class="img"></div>
-      <img src="images/IMG_2.jpg" />
+      <img src="images/IMG_2.jpg"  class="image"/>
       <div class="card-content">
         <h1>ماموریت</h1>
         <p>ترویج تفکر ارزشی و فرآهم کردن فرصت کسب مهارت های اساسی زندگی بر پایه خودآگاهی و درک رابطه خود با جهان هستی</p>
@@ -128,7 +128,7 @@ class Home extends PolymerElement {
       
       <cute-card animated>
       <div class="img"></div>
-      <img src="images/IMG_3.jpg" />
+      <img src="images/IMG_3.jpg"  class="image"/>
       <div class="card-content">
         <h1>اهداف</h1>
         <p>کاهش آسیب های اجتماعی بحرانی با ارائه و اجرای راه حل ها در حوزه آسیب های اجتماعی بنیادین 

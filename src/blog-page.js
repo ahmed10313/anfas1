@@ -41,7 +41,7 @@ class Blog extends PolymerElement {
           margin:25px 5%;
           display:inline-block;
         }
-        cute-card > img {
+        img {
           width:100%;
           object-fit:cover;
         }
@@ -125,13 +125,6 @@ class Blog extends PolymerElement {
     {
     this.last=false;
     this.loaded(res.detail.__data.response)
-    if(res.detail.__data.response[2] != null) this.req = res.detail.__data.response[2].ID
-    else{
-    if(res.detail.__data.response[1] != null) this.req = res.detail.__data.response[1].ID
-    else{
-    if(res.detail.__data.response[0] != null) this.req = res.detail.__data.response[0].ID
-    }
-    }
     }
     else{
       this.last= true
@@ -140,26 +133,43 @@ class Blog extends PolymerElement {
   }
   
   loadMoreData(){
-    if(!this.last)this.$.ajax.generateRequest();
+    if(!this.loading)if(!this.last)this.$.ajax.generateRequest();
     setTimeout(() => {
       this.$.threshold.clearTriggers();
     }, 2000);
   }
   
   loaded(e) {
+    if(e[2] != null) this.req = e[2].ID
+    else{
+    if(e[1] != null) this.req = e[1].ID
+    else{
+    if(e[0] != null) this.req = e[0].ID
+    }
+    }
+
+
     if(!this.last)
     {
+      var repeat = false;
     var self = this;
     var people = e;
+    if(e[2] == this.req) repeat = true
+    else{
+    if(e[1] == this.req) repeat = true
+    else{
+    if(e[0] == this.req) repeat = true
+    }
+    }
     people.forEach(function(element) 
     {
-      self.push('posts', element)
+      if(!repeat) self.push('posts', element)
     });
   }
   }
   connectedCallback() {
     super.connectedCallback();
-    this.loadMoreData()
+    this.$.ajax.generateRequest()
   }
 }
 
