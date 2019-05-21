@@ -28,7 +28,8 @@ class Post extends PolymerElement {
       loading : {type: Boolean},
       req : {type:Number, value:0},
       routeData: Object,
-      subroute: Object
+      subroute: Object,
+      con: html
     }
   }
   static get template() {
@@ -101,14 +102,14 @@ class Post extends PolymerElement {
           loading="{{loading}}">
       </iron-ajax>
 
-      <template is="dom-repeat" items="[[posts]]">
+      <template is="dom-repeat" items="{{posts}}" mutable-data>
       
       <div class="head"><img src="[[item.image]]" class="img"/></div>
       <div class="con">
       <cute-card animated>
         <div class="card-content">
         <h1>[[item.topic]]</h1>
-        <p>[[item.body]]</p>
+        <p inner-h-t-m-l="{{con}}"></p>
         </div>
         <div class="card-action">
           <p> نوشته شده در تاریخ [[item.date]]</p>
@@ -129,6 +130,7 @@ class Post extends PolymerElement {
     if(res.detail.__data.response != null)
     {
     this.posts = res.detail.__data.response
+    this.con = this.posts[0].body
     }
     else{
 

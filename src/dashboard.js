@@ -138,6 +138,7 @@ class Dashboard extends PolymerElement {
                 <powered-page name="power"><paper-spinner active></paper-spinner></powered-page>
                 <workshop-cms name="workshop"><paper-spinner active></paper-spinner></workshop-cms>
                 <posts-cms name="posts"><paper-spinner active></paper-spinner></posts-cms>
+                <newpost-cms name="newpost"><paper-spinner active></paper-spinner></newpost-cms>
     
             </neon-animated-pages>
 
@@ -202,7 +203,7 @@ class Dashboard extends PolymerElement {
      // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
     if (!tab) {
       this.tab = 'power';
-    } else if (['power', 'workshop', 'posts'].indexOf(tab) !== -1) {
+    } else if (['power', 'workshop', 'posts', 'newpost'].indexOf(tab) !== -1) {
       this.tab = tab;
     } else {
       this.tab = 'view404';
@@ -220,6 +221,9 @@ class Dashboard extends PolymerElement {
         break;
     case 'posts' :
         import('./posts-cms.js');
+        break;
+    case 'newpost' :
+        import('./newpost-cms.js');
         break;
       case 'view404':
         import('./my-view404.js');

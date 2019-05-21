@@ -10,14 +10,22 @@
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '@cute/cute-card/cute-card'
+import '@cute/cute-helpers/loaders/progress'
 import '@polymer/iron-ajax/iron-ajax'
 import '@polymer/paper-button/paper-button'
 import '@polymer/iron-icons/iron-icons'
-import '@polymer/paper-icon-button/paper-icon-button.js';
+import '@polymer/paper-icon-button/paper-icon-button.js'
+import '@polymer/app-storage/app-localstorage/app-localstorage-document.js'
+import '@cute/cute-helpers/loaders/lazy-placeholder'
+import '@polymer/paper-toast/paper-toast'
 class Posts extends PolymerElement {
     static get properties(){
         return {
-            posts : Object
+            posts : Object,
+            loading :Boolean,
+            user : String,
+            athu : String,
+            requ : Boolean
         }
     }
   static get template() {
@@ -32,6 +40,7 @@ class Posts extends PolymerElement {
           
             font-family: 'El Messiri';
           }
+          a{text-decoration:none; color:#222;}
         cute-card {
             width:97%;
             margin:auto 1.5%;
@@ -67,32 +76,38 @@ class Posts extends PolymerElement {
             width:35px;
             height:35px;
         }
+
+        .load {
+          width:100%;
+          height:20px;
+          margin:2px auto;
+        }
         .dl{clear:both; height: 30px;}
       </style>
       <br /><br />
       <iron-ajax
-            auto
+          auto
           id="ajax"
           url="http://api.anfas1.org/blog/"
           handle-as="json"
           on-response="handleResponse"
-          debounce-duration="300">
+          debounce-duration="300"
+          loading="{{requ}}">
       </iron-ajax>
 
       <cute-card>
+      <template is="dom-if" if="{{requ}}"><cute-progress></cute-progress></template>
+
         <div class="card-content">
-            <paper-icon-button id="new" icon="add"></paper-icon-button>
+            <a href="cms/newpost" id="new"><paper-icon-button icon="add"></paper-icon-button></a>
             <h3 id="h3">مطالب بلاگ</h3>
             <div class="dl"></div>
-
-
             <template is="dom-repeat" items="[[posts]]">
             <div class="item">
                 <h5>[[item.topic]]</h5>
                     <div class="options">
-                        <paper-icon-button icon="link" class="small"></paper-icon-button>
-                        <paper-icon-button icon="delete" class="small"></paper-icon-button>
-                        <paper-icon-button icon="assignment" class="small"></paper-icon-button>
+                        <a href="post/[[item.ID]]"><paper-icon-button icon="link" class="small"></paper-icon-button></a>
+                        <paper-icon-button icon="delete" class="small" on-click="delete" arg="[[item.ID]]"></paper-icon-button>
                     </div>
             </div>
             </template>
@@ -100,14 +115,59 @@ class Posts extends PolymerElement {
         </div>
       </cute-card>
 
+
+      <iron-ajax
+          id="request"
+          handle-as="text"
+          on-response="functionRes"
+          debounce-duration="300"
+          loading="{{requ}}">
+      </iron-ajax>
+
+      
+<app-localstorage-document key="athu" data="{{athu}}">
+</app-localstorage-document>
+<app-localstorage-document key="user" data="{{user}}">
+</app-localstorage-document>
+<paper-toast id="log"></paper-toast>
     `;
   }
+  refresh(){this.$.ajax.generateRequest()}
+
+
+  delete(e){
+    var id = e.model.__data.item.ID
+    this.$.request.url="http://api.anfas1.org/cms/blog/delete/?id="+id+"&"+this.PEREMESSION()
+    this.$.request.generateRequest();
+  }
+
+
+
+  // component Functions
+  //***************************** */
+  
+  functionRes(res){
+    if(res.detail.__data.response == "Deleted") this.log("نوشته حذف شد")
+    else this.log("خطا : "  + res.detail.__data.response)
+
+    this.refresh();
+  }
+
 
   handleResponse(res){
     this.posts = res.detail.__data.response
-    console.log(res)
-    
   }
+
+  log(msg){
+    this.$.log.text=msg;
+    this.$.log.open();
+  }
+
+  PEREMESSION()
+  {
+    return "user="+this.user+"&athu="+this.athu
+  }
+
 }
 
 window.customElements.define('posts-cms', Posts);
