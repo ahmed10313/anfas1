@@ -1,10 +1,10 @@
 {
-  "name": "polymer-starter-kit",
+  "name": "anfas-web-application",
   "version": "4.0.0",
-  "description": "A starting point for Polymer apps",
-  "author": "The Polymer Authors",
+  "description": "anfas social awaking",
+  "author": "sharohil",
   "license": "BSD-3-Clause",
-  "repository": "Polymer/polymer-starter-kit",
+  "repository": "ahmed10313/anfas1",
   "scripts": {
     "start": "polymer serve",
     "build": "polymer build",
