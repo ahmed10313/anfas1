@@ -39,6 +39,10 @@ class Shop extends PolymerElement {
         :host {
           display: block;
         }
+        *{
+          
+          font-family: 'El Messiri';
+        }
         cute-card{
           width:90%;
           margin:25px 5%;
@@ -75,6 +79,10 @@ class Shop extends PolymerElement {
       paper-spinner {
         display:block;
         margin: 20vh auto;
+      }
+      
+      #content img{
+        max-width:98%;
       }
         @media(min-width:700px){
           cute-card{
@@ -131,7 +139,7 @@ class Shop extends PolymerElement {
       <cute-card id="cont">
         <div class="card-content">
         <h1>[[item.topic]]</h1>
-        <p>[[item.body]]</p>
+        <p id="content" inner-h-t-m-l="{{con}}"></p>
         </div>
         <div class="card-action">
         </div>
@@ -173,6 +181,7 @@ class Shop extends PolymerElement {
     if(res.detail.__data.response != null)
     {
     this.posts = res.detail.__data.response
+    this.con = this.posts[0].body
     }
     else{
 

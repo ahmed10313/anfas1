@@ -31,6 +31,10 @@ class EDU extends PolymerElement {
         :host {
           display: block;
         }
+        *{
+          
+          font-family: 'El Messiri';
+        }
         cute-card{
           width:90%;
           margin:25px 5%;

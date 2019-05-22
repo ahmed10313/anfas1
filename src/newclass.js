@@ -18,14 +18,24 @@ import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/app-storage/app-localstorage/app-localstorage-document.js'
 import '@cute/cute-helpers/loaders/lazy-placeholder'
 import '@polymer/paper-toast/paper-toast'
-class Posts extends PolymerElement {
+import '@polymer/paper-input/paper-input'
+import '@vaadin/vaadin-rich-text-editor/vaadin-rich-text-editor.js';
+import '@polymer/app-route/app-location.js'
+import '@polymer/app-route/app-route.js'
+var img;
+class newclass extends PolymerElement {
     static get properties(){
         return {
             posts : Object,
             loading :Boolean,
             user : String,
             athu : String,
-            requ : Boolean
+            requ : Boolean,
+            content : String,
+            topic : String,
+            image : String,
+            date : String,
+            summ: String
         }
     }
   static get template() {
@@ -34,7 +44,7 @@ class Posts extends PolymerElement {
         :host {
           display: block;
           padding: 10px 20px;
-          text-align:center;
+          text-align:right;
         }
         *{
           
@@ -44,20 +54,6 @@ class Posts extends PolymerElement {
         cute-card {
             width:97%;
             margin:auto 1.5%;
-        }
-        #h3{
-            float:right;
-        }
-        #new {
-            float:left;
-        }
-        h5 {
-            display:inline-block;
-            text-align:right;
-            float:right;
-            margin:0;
-            padding:17px;
-            line-height:0;
         }
         .item {
             width:100%;
@@ -85,42 +81,34 @@ class Posts extends PolymerElement {
         .dl{clear:both; height: 30px;}
       </style>
       <br /><br />
-      <iron-ajax
-          auto
-          id="ajax"
-          url="http://api.anfas1.org/blog/"
-          handle-as="json"
-          on-response="handleResponse"
-          debounce-duration="300"
-          loading="{{requ}}">
-      </iron-ajax>
+      <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
+      </app-location>
+
+      <app-route route="{{route}}" pattern="[[rootPath]]:page/:tab/:id" data="{{routeData}}" tail="{{subroute}}">
+      </app-route>
 
       <cute-card>
-      <template is="dom-if" if="{{requ}}"><cute-progress></cute-progress></template>
-
-        <div class="card-content">
-            <a href="cms/newpost" id="new"><paper-icon-button icon="add"></paper-icon-button></a>
-            <h3 id="h3">مطالب بلاگ</h3>
-            <div class="dl"></div>
-            <template is="dom-repeat" items="[[posts]]">
-            <div class="item">
-                <h5>[[item.topic]]</h5>
-                    <div class="options">
-                        <a href="post/[[item.ID]]"><paper-icon-button icon="link" class="small"></paper-icon-button></a>
-                        <paper-icon-button icon="delete" class="small" on-click="delete" arg="[[item.ID]]"></paper-icon-button>
-                    </div>
-            </div>
-            </template>
-            <div class="dl"></div>
+      <div class="card-content">
+      <paper-input value="{{topic}}" label="موضوع"></paper-input>
+      <vaadin-rich-text-editor id="editor">
+      </vaadin-rich-text-editor>
+      </div>
+        <div class="card-action">
+            <paper-button on-click="post">انتشار</paper-button>
         </div>
       </cute-card>
-
+<br />
+<br />
+<br />
 
       <iron-ajax
           id="request"
           handle-as="text"
           on-response="functionRes"
           debounce-duration="300"
+          method="POST"
+          headers='{"Content-Type": "application/json"}'
+          content-type="application/x-www-form-urlencoded"
           loading="{{requ}}">
       </iron-ajax>
 
@@ -132,32 +120,38 @@ class Posts extends PolymerElement {
 <paper-toast id="log"></paper-toast>
     `;
   }
-  refresh(){this.$.ajax.generateRequest()}
 
 
-  delete(e){
-    console.log(e)
-    var id = e.model.__data.item.ID
-    this.$.request.url="http://api.anfas1.org/cms/blog/delete/?id="+id+"&"+this.PEREMESSION()
-    this.$.request.generateRequest();
+  post(e){
+var tt = this;
+    var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+       // Typical action to be performed when the document is ready:
+       
+    if(xhttp.responseText == "done") 
+    {
+    tt.log("کلاس انتشار یافت")
+    tt.topic= "";
+    tt.$.editor.value = "";
+    }
+    else tt.log("خطا : "  + xhttp.responseText)
+    }
+};
+xhttp.open("POST", "http://api.anfas1.org/cms/workshop/class/new/", true);
+var fd = new FormData();
+
+fd.append("user", this.user);
+fd.append("athu", this.athu);
+fd.append("id", this.routeData.id);
+fd.append("topic", this.topic);
+fd.append("body", this.$.editor.htmlValue);
+xhttp.send(fd);
   }
-
 
 
   // component Functions
   //***************************** */
-  
-  functionRes(res){
-    if(res.detail.__data.response == "Deleted") this.log("نوشته حذف شد")
-    else this.log("خطا : "  + res.detail.__data.response)
-
-    this.refresh();
-  }
-
-
-  handleResponse(res){
-    this.posts = res.detail.__data.response
-  }
 
   log(msg){
     this.$.log.text=msg;
@@ -169,6 +163,11 @@ class Posts extends PolymerElement {
     return "user="+this.user+"&athu="+this.athu
   }
 
+  connectedCallback()
+  {
+      super.connectedCallback()
+  }
+
 }
 
-window.customElements.define('posts-cms', Posts);
+window.customElements.define('class-cms', newclass);

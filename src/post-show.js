@@ -60,6 +60,9 @@ class Post extends PolymerElement {
           width:100%;
           margin-top: -35vh;
         }
+        #content img{
+          max-width:98%;
+        }
       a{
         text-decoration: none;
         color:#444;
@@ -109,7 +112,7 @@ class Post extends PolymerElement {
       <cute-card animated>
         <div class="card-content">
         <h1>[[item.topic]]</h1>
-        <p inner-h-t-m-l="{{con}}"></p>
+        <p id="content" inner-h-t-m-l="{{con}}"></p>
         </div>
         <div class="card-action">
           <p> نوشته شده در تاریخ [[item.date]]</p>

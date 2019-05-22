@@ -139,12 +139,17 @@ class Dashboard extends PolymerElement {
                 <workshop-cms name="workshop"><paper-spinner active></paper-spinner></workshop-cms>
                 <posts-cms name="posts"><paper-spinner active></paper-spinner></posts-cms>
                 <newpost-cms name="newpost"><paper-spinner active></paper-spinner></newpost-cms>
+                <newshop-cms name="newshop"><paper-spinner active></paper-spinner></newshop-cms>
+                <shop-cms name="shop"><paper-spinner active></paper-spinner></shop-cms>
+                <class-cms name="newclass"><paper-spinner active></paper-spinner></class-cms>
     
+                
+                <my-view404 name="view404"><paper-spinner active></paper-spinner></my-view404>
             </neon-animated-pages>
 
             <div class="menu">
             
-            <iron-selector selected="{{routeData.tab}}" attr-for-selected="href">
+            <iron-selector selected="{{tab}}" attr-for-selected="href">
                 <paper-button href="workshop">کارگروه ها</paper-button>
                 <paper-button href="posts">مطالب</paper-button>
                 <paper-button on-click="logOut"><a href=""> خروج </a></paper-button>
@@ -203,7 +208,7 @@ class Dashboard extends PolymerElement {
      // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
     if (!tab) {
       this.tab = 'power';
-    } else if (['power', 'workshop', 'posts', 'newpost'].indexOf(tab) !== -1) {
+    } else if (['power', 'workshop', 'posts', 'newpost', 'newshop', 'shop', 'newclass'].indexOf(tab) !== -1) {
       this.tab = tab;
     } else {
       this.tab = 'view404';
@@ -224,6 +229,15 @@ class Dashboard extends PolymerElement {
         break;
     case 'newpost' :
         import('./newpost-cms.js');
+        break;
+    case 'newshop' :
+        import('./newshop-cms.js');
+        break;
+    case 'shop' :
+        import('./shop-cms.js');
+        break;
+    case 'newclass' :
+        import('./newclass.js');
         break;
       case 'view404':
         import('./my-view404.js');

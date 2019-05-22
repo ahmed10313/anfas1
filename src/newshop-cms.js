@@ -10,7 +10,6 @@
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '@cute/cute-card/cute-card'
-import '@cute/cute-helpers/loaders/progress'
 import '@polymer/iron-ajax/iron-ajax'
 import '@polymer/paper-button/paper-button'
 import '@polymer/iron-icons/iron-icons'
@@ -18,14 +17,20 @@ import '@polymer/paper-icon-button/paper-icon-button.js'
 import '@polymer/app-storage/app-localstorage/app-localstorage-document.js'
 import '@cute/cute-helpers/loaders/lazy-placeholder'
 import '@polymer/paper-toast/paper-toast'
-class Posts extends PolymerElement {
+import '@polymer/paper-input/paper-input'
+import '@polymer/paper-input/paper-textarea'
+var img;
+class newShop extends PolymerElement {
     static get properties(){
         return {
             posts : Object,
             loading :Boolean,
             user : String,
             athu : String,
-            requ : Boolean
+            requ : Boolean,
+            body : String,
+            topic : String,
+            image : String,
         }
     }
   static get template() {
@@ -34,7 +39,7 @@ class Posts extends PolymerElement {
         :host {
           display: block;
           padding: 10px 20px;
-          text-align:center;
+          text-align:right;
         }
         *{
           
@@ -44,20 +49,6 @@ class Posts extends PolymerElement {
         cute-card {
             width:97%;
             margin:auto 1.5%;
-        }
-        #h3{
-            float:right;
-        }
-        #new {
-            float:left;
-        }
-        h5 {
-            display:inline-block;
-            text-align:right;
-            float:right;
-            margin:0;
-            padding:17px;
-            line-height:0;
         }
         .item {
             width:100%;
@@ -76,7 +67,13 @@ class Posts extends PolymerElement {
             width:35px;
             height:35px;
         }
-
+        #image{
+            width:98%;
+        }
+        lazy-placeholder{
+            width:98%;
+            height:200px;
+        }
         .load {
           width:100%;
           height:20px;
@@ -85,42 +82,33 @@ class Posts extends PolymerElement {
         .dl{clear:both; height: 30px;}
       </style>
       <br /><br />
-      <iron-ajax
-          auto
-          id="ajax"
-          url="http://api.anfas1.org/blog/"
-          handle-as="json"
-          on-response="handleResponse"
-          debounce-duration="300"
-          loading="{{requ}}">
-      </iron-ajax>
 
       <cute-card>
-      <template is="dom-if" if="{{requ}}"><cute-progress></cute-progress></template>
+      <div class="card-content">
+      <paper-input value="{{topic}}" label="موضوع"></paper-input>
 
-        <div class="card-content">
-            <a href="cms/newpost" id="new"><paper-icon-button icon="add"></paper-icon-button></a>
-            <h3 id="h3">مطالب بلاگ</h3>
-            <div class="dl"></div>
-            <template is="dom-repeat" items="[[posts]]">
-            <div class="item">
-                <h5>[[item.topic]]</h5>
-                    <div class="options">
-                        <a href="post/[[item.ID]]"><paper-icon-button icon="link" class="small"></paper-icon-button></a>
-                        <paper-icon-button icon="delete" class="small" on-click="delete" arg="[[item.ID]]"></paper-icon-button>
-                    </div>
-            </div>
-            </template>
-            <div class="dl"></div>
+
+      <template is="dom-if" if="{{requ}}"><lazy-placeholder></lazy-placeholder></template>
+      <img src="{{image}}" id="image" />
+      <paper-input type="file" id="myFile" on-change="_handleFiles"></paper-input>
+      <paper-textarea  value="{{body}}" label="توضیحات"></paper-textarea>
+      </div>
+        <div class="card-action">
+            <paper-button on-click="post">انتشار</paper-button>
         </div>
       </cute-card>
-
+<br />
+<br />
+<br />
 
       <iron-ajax
           id="request"
           handle-as="text"
           on-response="functionRes"
           debounce-duration="300"
+          method="POST"
+          headers='{"Content-Type": "application/json"}'
+          content-type="application/x-www-form-urlencoded"
           loading="{{requ}}">
       </iron-ajax>
 
@@ -132,32 +120,55 @@ class Posts extends PolymerElement {
 <paper-toast id="log"></paper-toast>
     `;
   }
-  refresh(){this.$.ajax.generateRequest()}
 
 
-  delete(e){
-    console.log(e)
-    var id = e.model.__data.item.ID
-    this.$.request.url="http://api.anfas1.org/cms/blog/delete/?id="+id+"&"+this.PEREMESSION()
-    this.$.request.generateRequest();
+  post(e){
+var tt = this;
+    var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+       // Typical action to be performed when the document is ready:
+       
+    if(xhttp.responseText == "done") {tt.log("کارگاه تاسیس شد")
+    tt.topic="";
+    tt.summ="";
+    }
+    else tt.log("خطا : "  + xhttp.responseText)
+    }
+};
+xhttp.open("POST", "http://api.anfas1.org/cms/workshop/new/", true);
+var fd = new FormData();
+
+fd.append("user", this.user);
+fd.append("athu", this.athu);
+fd.append("topic", this.topic);
+fd.append("body", this.body);
+fd.append("image", img);
+xhttp.send(fd);
   }
 
+  _handleFiles(e) {
+    this.requ = true;
+    var THIS = this;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+       // Typical action to be performed when the document is ready:
+       img = xhttp.responseText
+       THIS.image = img;
+       THIS.requ = false;
+    }
+}
+xhttp.open("POST", "http://api.anfas1.org/upload.php", true);
+var fd = new FormData();
+fd.append("file", this.$.myFile.inputElement.inputElement.files[0]);
+xhttp.send(fd);
+  
+  }
 
 
   // component Functions
   //***************************** */
-  
-  functionRes(res){
-    if(res.detail.__data.response == "Deleted") this.log("نوشته حذف شد")
-    else this.log("خطا : "  + res.detail.__data.response)
-
-    this.refresh();
-  }
-
-
-  handleResponse(res){
-    this.posts = res.detail.__data.response
-  }
 
   log(msg){
     this.$.log.text=msg;
@@ -169,6 +180,11 @@ class Posts extends PolymerElement {
     return "user="+this.user+"&athu="+this.athu
   }
 
+  connectedCallback()
+  {
+      super.connectedCallback()
+  }
+
 }
 
-window.customElements.define('posts-cms', Posts);
+window.customElements.define('newshop-cms', newShop);

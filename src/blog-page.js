@@ -36,6 +36,10 @@ class Blog extends PolymerElement {
         :host {
           display: block;
         }
+        *{
+          
+          font-family: 'El Messiri';
+        }
         cute-card{
           width:90%;
           margin:25px 5%;
@@ -49,7 +53,7 @@ class Blog extends PolymerElement {
           text-align:left;
         }
         .head{
-          height:70vh;
+          height:90vh;
           width:100%;
           background-image: url('images/blog.jpg');
           background-size:cover;

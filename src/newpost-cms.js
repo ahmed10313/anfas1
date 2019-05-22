@@ -125,7 +125,13 @@ var tt = this;
 xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
        // Typical action to be performed when the document is ready:
-       console.log(xhttp.responseText)
+       
+    if(xhttp.responseText == "done") {tt.log("نوشته انتشار یافت")
+    tt.topic="";
+    tt.summ="";
+    tt.$.editor.value="";
+    }
+    else tt.log("خطا : "  + xhttp.responseText)
     }
 };
 xhttp.open("POST", "http://api.anfas1.org/cms/blog/new/", true);
@@ -160,12 +166,6 @@ xhttp.send(fd);
 
   // component Functions
   //***************************** */
-  
-  functionRes(res){
-      console.log(res)
-    if(res.detail.__data.response == "done") this.log("نوشته انتشار یافت")
-    else this.log("خطا : "  + res.detail.__data.response)
-  }
 
   log(msg){
     this.$.log.text=msg;

@@ -71,6 +71,10 @@ class ClassShow extends PolymerElement {
         .item {
           display:block;
         }
+         
+      #content img{
+        max-width:98%;
+      }
       paper-spinner {
         display:block;
         margin: 20vh auto;
@@ -132,7 +136,7 @@ class ClassShow extends PolymerElement {
       <cute-card id="cont">
         <div class="card-content">
         <h1>[[item.topic]]</h1>
-        <p>[[item.body]]</p>
+        <p id="content" inner-h-t-m-l="{{con}}"></p>
         </div>
         <div class="card-action">
         <p>در تاریخ : [[item.date]]</p>
@@ -177,6 +181,7 @@ class ClassShow extends PolymerElement {
     if(res.detail.__data.response != null)
     {
     this.posts = res.detail.__data.response
+    this.con = this.posts[0].body
     }
     else{
 

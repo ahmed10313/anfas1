@@ -20,6 +20,10 @@ class Home extends PolymerElement {
         :host {
           display: block;
         }
+        *{
+          
+          font-family: 'El Messiri';
+        }
         h2{
           padding:50px 2% 0px;
         }
