@@ -22,8 +22,11 @@ class EDU extends PolymerElement {
   static get properties(){
     return{
       shops : {type: Object},
-      loading : {type: Boolean}
+      loading : {type: Boolean},
     }
+  }
+  _short(e) {
+    return e.slice(0, 220) + "..."
   }
   static get template() {
     return html`
@@ -50,10 +53,6 @@ class EDU extends PolymerElement {
         .head{
           height:30px;
           width:100%;
-        }
-        .card-content > p{
-          height:100px;
-          overflow: hidden;
         }
       a{
         text-decoration: none;
@@ -85,7 +84,8 @@ class EDU extends PolymerElement {
           handle-as="json"
           on-response="handleResponse"
           debounce-duration="300"
-          loading="{{loading}}">
+          loading="{{loading}}"
+          headers='{"cache-control": "no-cache"}'>
       </iron-ajax>
 
       <template is="dom-repeat" items="[[shops]]">
@@ -93,7 +93,7 @@ class EDU extends PolymerElement {
       <img src="[[item.image]]" class="img"/>
         <div class="card-content">
         <h1>[[item.topic]]</h1>
-        <p>[[item.body]]</p>
+        <p>{{_short(item.body)}}</p>
         </div>
         <div class="card-action">
           <a href="shop/[[item.id]]"><paper-button>بیشتر</paper-button></a>
@@ -109,10 +109,10 @@ class EDU extends PolymerElement {
 </template>
     `;
   }
-
   handleResponse(res){
     this.shops = res.detail.__data.response
   }
+
 }
 
 window.customElements.define('edu-page', EDU);

@@ -39,6 +39,11 @@ class ClassShow extends PolymerElement {
         :host {
           display: block;
         }
+        
+        *{
+          
+          font-family: 'El Messiri';
+        }
         cute-card{
           width:90%;
           margin:25px 5%;
@@ -115,7 +120,8 @@ class ClassShow extends PolymerElement {
       handle-as="json"
       on-response="handleResponse"
       debounce-duration="300"
-      loading="{{loading}}">
+      loading="{{loading}}"
+      headers='{"cache-control": "no-cache"}'>
   </iron-ajax>
 
   <iron-ajax
@@ -124,7 +130,8 @@ class ClassShow extends PolymerElement {
   handle-as="json"
   on-response="handleResponseItems"
   debounce-duration="300"
-  loading="{{itemLoading}}">
+  loading="{{itemLoading}}"
+  headers='{"cache-control": "no-cache"}'>
 </iron-ajax>
 
 

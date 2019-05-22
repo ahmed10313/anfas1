@@ -48,7 +48,7 @@ class Posts extends PolymerElement {
         #h3{
             float:right;
         }
-        #new {
+  .new {
             float:left;
         }
         h5 {
@@ -92,14 +92,16 @@ class Posts extends PolymerElement {
           handle-as="json"
           on-response="handleResponse"
           debounce-duration="300"
-          loading="{{requ}}">
+          loading="{{requ}}"
+          headers='{"cache-control": "no-cache"}'>
       </iron-ajax>
 
       <cute-card>
       <template is="dom-if" if="{{requ}}"><cute-progress></cute-progress></template>
 
         <div class="card-content">
-            <a href="cms/newpost" id="new"><paper-icon-button icon="add"></paper-icon-button></a>
+            <a href="cms/newpost" class="new"><paper-icon-button icon="add"></paper-icon-button></a>
+            <a on-click="refresh" class="new"><paper-icon-button icon="cached"></paper-icon-button></a>
             <h3 id="h3">مطالب بلاگ</h3>
             <div class="dl"></div>
             <template is="dom-repeat" items="[[posts]]">

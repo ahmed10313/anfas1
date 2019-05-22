@@ -42,6 +42,12 @@ class MyApp extends PolymerElement {
         --cute-toolbar-background: #FFF;
         --paper-tabs-selection-bar-color: var(--paper-light-blue-100);
       }
+      
+      *{
+          
+        font-family: 'El Messiri';
+      }
+      
       .red,home-app {
         width:100%;
         height:300px;
@@ -91,14 +97,14 @@ class MyApp extends PolymerElement {
         opacity:0;
       }
       cute-toolbar{
-        --cute-toolbar-tall : 50 px;
+        --cute-toolbar-tall : 50;
       }
       iron-selector#dra > *{
         display:block;
       }
       #prof {
-        width:60%;
-        margin:30px 20%;
+        width:40%;
+        margin:30px 30%;
         object-fit:cover;
   
       }
@@ -146,7 +152,7 @@ class MyApp extends PolymerElement {
         <paper-icon-button id="menu" icon="my-icons:menu" on-click="toggle"></paper-icon-button>
           
         <h3>انفاس
-        <p>موسسه فرهنگی اجتماعی</p>
+        <p>بیداری  فرهنگی و اجتماعی</p>
         </h3>   
           <div>
           <iron-selector selected="{{routeData.page}}" attr-for-selected="href" id="#dra">
@@ -154,7 +160,7 @@ class MyApp extends PolymerElement {
           <paper-button href="edu">دوره ها و کارگاه ها</paper-button>
           <paper-button href="blog">مطالب</paper-button>
           <paper-button on-click="goto">ثبت نام در سمن انفاس</paper-button>
-          <paper-button>درباره ما</paper-button>
+          <paper-button href="about">درباره ما</paper-button>
           <paper-button href="cms">ناحیه کاربری</paper-button>
           </iron-selector>
           </div> 
@@ -177,6 +183,7 @@ class MyApp extends PolymerElement {
         <post-show name="post"><paper-spinner active></paper-spinner></post-show>
         <shop-show name="shop"><paper-spinner active></paper-spinner></shop-show>
         <class-show name="class"><paper-spinner active></paper-spinner></class-show>
+        <about-page name="about"><paper-spinner active></paper-spinner></about-page>
 
 
         <login-page name="login"><paper-spinner active></paper-spinner></login-page>
@@ -193,7 +200,7 @@ class MyApp extends PolymerElement {
 <paper-button href="edu">دوره ها و کارگاه ها</paper-button>
 <paper-button href="blog">مطالب</paper-button>
 <paper-button on-click="goto">ثبت نام در سمن انفاس</paper-button>
-<paper-button>درباره ما</paper-button>
+<paper-button href="about">درباره ما</paper-button>
 <paper-button href="cms">ناحیه کاربری</paper-button>
 </iron-selector>
 </app-drawer>
@@ -225,7 +232,7 @@ class MyApp extends PolymerElement {
      // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
       this.page = 'home';
-    } else if (['home', 'edu', 'blog', 'login', 'post', 'shop', 'class', 'cms'].indexOf(page) !== -1) {
+    } else if (['home', 'edu', 'blog', 'login', 'post', 'shop', 'class', 'cms', 'about'].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = 'view404';
@@ -259,7 +266,10 @@ class MyApp extends PolymerElement {
         import('./login.js');
         break;
       case 'cms':
-         import('./dashboard.js');
+        import('./dashboard.js');
+        break; 
+      case 'about':
+        import('./about-page.js');
         break;
       case 'view404':
         import('./my-view404.js');

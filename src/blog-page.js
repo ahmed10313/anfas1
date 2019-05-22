@@ -94,7 +94,8 @@ class Blog extends PolymerElement {
           handle-as="json"
           on-response="handleResponse"
           debounce-duration="300"
-          loading="{{loading}}">
+          loading="{{loading}}"
+          headers='{"cache-control": "no-cache"}'>
       </iron-ajax>
 
       <template is="dom-repeat" items="[[posts]]">

@@ -98,7 +98,8 @@ class Shop extends PolymerElement {
       handle-as="json"
       on-response="getinfo"
       debounce-duration="300"
-      loading="{{loading}}">
+      loading="{{loading}}"
+      headers='{"cache-control": "no-cache"}'>
   </iron-ajax>
 
       <iron-ajax 
@@ -108,7 +109,8 @@ class Shop extends PolymerElement {
           handle-as="json"
           on-response="handleResponse"
           debounce-duration="300"
-          loading="{{requ}}">
+          loading="{{requ}}"
+          headers='{"cache-control": "no-cache"}'>
       </iron-ajax>
 
       <cute-card>

@@ -92,7 +92,8 @@ class WorkShop extends PolymerElement {
           handle-as="json"
           on-response="handleResponse"
           debounce-duration="300"
-          loading="{{requ}}">
+          loading="{{requ}}"
+          headers='{"cache-control": "no-cache"}'>
       </iron-ajax>
 
       <cute-card>

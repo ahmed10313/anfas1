@@ -37,6 +37,7 @@ class Dashboard extends PolymerElement {
       subroute: Object,
       athu: String,
       access: Boolean,
+      logg:Boolean,
       tab: {
         type: String,
         reflectToAttribute: true,
@@ -125,6 +126,13 @@ class Dashboard extends PolymerElement {
 
       <!-- Main CMS Content -->
 
+      
+      <template is="dom-if" if="{{logg}}">
+      <br /><br />
+      <br /><br />
+      <a href="login">Login Page</a>
+      </template>
+
       <template is="dom-if" if="{{access}}">  
       
       
@@ -183,7 +191,7 @@ class Dashboard extends PolymerElement {
       console.log(e.detail.__data.response)
       if(e.detail.__data.response == "true")
       this.access = true;
-
+this.logg=false;
       this.login()
   }
   connectedCallback()
@@ -253,9 +261,7 @@ logOut(){
 login()
 {
     if(!this.access){
-    if(this.athu == ""){
         window.location="login"
-    }
     }
 }
 

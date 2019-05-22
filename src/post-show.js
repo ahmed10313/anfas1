@@ -10,11 +10,11 @@
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js'
+import '@polymer/app-route/app-location.js'
+import '@polymer/app-route/app-route.js'
 import '@cute/cute-card/cute-card'
 import '@polymer/iron-ajax/iron-ajax'
 import '@polymer/paper-spinner/paper-spinner';
-import '@polymer/app-route/app-location.js'
-import '@polymer/app-route/app-route.js'
 
 class Post extends PolymerElement {
   constructor(){
@@ -25,11 +25,12 @@ class Post extends PolymerElement {
   static get properties(){
     return{
       posts : {type: Object},
+      items : {type: Object},
       loading : {type: Boolean},
+      itemLoading : {type: Boolean},
       req : {type:Number, value:0},
       routeData: Object,
-      subroute: Object,
-      con: html
+      subroute: Object
     }
   }
   static get template() {
@@ -37,6 +38,11 @@ class Post extends PolymerElement {
       <style include="shared-styles">
         :host {
           display: block;
+        }
+        
+        *{
+          
+          font-family: 'El Messiri';
         }
         cute-card{
           width:90%;
@@ -59,6 +65,12 @@ class Post extends PolymerElement {
         .con{
           width:100%;
           margin-top: -35vh;
+          
+          font-family: 'El Messiri';
+        }
+        #content{
+          
+          font-family: 'El Messiri';
         }
         #content img{
           max-width:98%;
@@ -96,17 +108,16 @@ class Post extends PolymerElement {
 
       <app-route route="{{route}}" pattern="[[rootPath]]:page/:id" data="{{routeData}}" tail="{{subroute}}">
       </app-route>
-      <iron-ajax
-          auto
-          url="http://api.anfas1.org/blog/post.php?req={{routeData.id}}"
-          handle-as="json"
-          on-response="handleResponse"
-          debounce-duration="300"
-          loading="{{loading}}">
-      </iron-ajax>
 
-      <template is="dom-repeat" items="{{posts}}" mutable-data>
-      
+  <iron-ajax
+  auto
+  url="http://api.anfas1.org/blog/post.php?req={{routeData.id}}"
+  handle-as="json"
+  on-response="handleResponse"
+  debounce-duration="300"
+  headers='{"cache-control": "no-cache"}'>
+</iron-ajax>
+      <template is="dom-repeat" items="[[posts]]">
       <div class="head"><img src="[[item.image]]" class="img"/></div>
       <div class="con">
       <cute-card animated>
@@ -115,21 +126,16 @@ class Post extends PolymerElement {
         <p id="content" inner-h-t-m-l="{{con}}"></p>
         </div>
         <div class="card-action">
-          <p> نوشته شده در تاریخ [[item.date]]</p>
         </div>
       </cute-card>
       </div>
       </template>
 
-      
-<template is="dom-if" if="{{loading}}">
-<paper-spinner active></paper-spinner>
-</template>
-
     `;
   }
 
   handleResponse(res){
+    console.log(res)
     if(res.detail.__data.response != null)
     {
     this.posts = res.detail.__data.response
