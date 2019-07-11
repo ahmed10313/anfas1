@@ -47,7 +47,15 @@ class Blog extends PolymerElement {
         }
         img {
           width:100%;
+          height:200px;
           object-fit:cover;
+          -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+          mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+          
+        }
+        .card-content{
+          margin-top:-100px;
+          height:200px;
         }
         .card-action{
           text-align:left;

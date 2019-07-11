@@ -13,7 +13,7 @@ import './shared-styles.js'
 import '@cute/cute-card/cute-card'
 import '@polymer/iron-ajax/iron-ajax'
 import '@cute/cute-helpers/loaders/lazy-placeholder'
-class EDU extends PolymerElement {
+class PART extends PolymerElement {
   constructor(){
     super();
     this.shops = []
@@ -42,22 +42,7 @@ class EDU extends PolymerElement {
           width:90%;
           margin:25px 5%;
           display:inline-block;
-        } 
-        
-        .head{
-          height:90vh;
-          width:100%;
-          background-image: url('images/163488.jpg');
-          background-size:cover;
-          background-position: center;
-          box-shadow:0 0 15px #333;
-        }
-        
-        .con{
-          width:100%;
-          margin-top: -35vh;
-        }
-        img {
+        }      img {
           width:100%;
           height:200px;
           object-fit:cover;
@@ -71,6 +56,10 @@ class EDU extends PolymerElement {
         }
         .card-action{
           text-align:left;
+        }
+        .head{
+          height:30px;
+          width:100%;
         }
       a{
         text-decoration: none;
@@ -95,7 +84,6 @@ class EDU extends PolymerElement {
         }
       </style>
       <div class="head"></div>
-      <div class="con">
       
       <iron-ajax
           auto
@@ -134,4 +122,4 @@ class EDU extends PolymerElement {
 
 }
 
-window.customElements.define('edu-page', EDU);
+window.customElements.define('part-page', PART);

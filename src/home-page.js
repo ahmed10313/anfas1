@@ -10,13 +10,43 @@
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
-import './edu-page'
+import './edupart-page'
 import '@cute/cute-card/cute-card'
 import '@polymer/neon-animation/neon-animation';
+import '@polymer/app-storage/app-localstorage/app-localstorage-document.js';
 class Home extends PolymerElement {
+  static get properties(){
+    return {
+      introduction : {type: Boolean, value: true}
+    }
+  }
   static get template() {
     return html`
+    
       <style include="shared-styles">
+
+@-webkit-keyframes text-shadow-drop-center {
+  0% {
+    text-shadow: 0 0 0 cyan;
+    color:#000;
+  }
+  100% {
+    text-shadow: 0 0 5px white;
+    color:#888;
+  }
+}
+@keyframes text-shadow-drop-center {
+  0% {
+    text-shadow: 0 0 0 cyan;
+    color:#000;
+  }
+  100% {
+    text-shadow: 0 0 5px white;
+    
+    color:#888;
+  }
+}
+
         :host {
           display: block;
         }
@@ -24,24 +54,39 @@ class Home extends PolymerElement {
           
           font-family: 'El Messiri';
         }
+        .container {
+          display: grid;
+          grid-template-columns: 1fr;
+          grid-template-rows: 1fr;
+          grid-column-gap: 20px;
+          grid-row-gap: 20px;
+          justify-items: stretch;
+          align-items: stretch;
+       }
         h2{
           padding:50px 2% 0px;
         }
         cute-card {
           padding: 0;
           position:relative;
+          margin-top:20px;
+          min-height:250px;
+          height:250px;
+          text-shadow:0 0 5px #FFF;
         }
-        cute-card > .img{
+        cute-card > img{
           width:100%;
-          height:200px;
-          background: linear-gradient(to right, orange, black);
-          position:absolute
+          height:100%;
+          position:absolute;
+          mix-blend-mode: luminosity;
+          filter : brightness(250%)
         }
-        .image {
+        cute-card:nth-child(2) > img{
           width:100%;
-          height:200px;
-          object-fit:cover;
-          mix-blend-mode: luminosity
+          height:100%;
+          position:absolute;
+          mix-blend-mode: luminosity;
+          filter : brightness(1000%)
         }
         .card-action {
           padding : 10px;
@@ -51,7 +96,7 @@ class Home extends PolymerElement {
           background-image: url('images/7ekvXy.jpg');
           background-size: cover;
           width:100%;
-          height:94vh;
+          height:100vh;
           background-repeat:no-repeat;
           background-position:center;
           text-align:left;
@@ -62,26 +107,49 @@ class Home extends PolymerElement {
           margin: 15vh calc(20%/2);
         }
 
+        li > a{
+          text-decoration:none;
+          color: #222;
+          font-weight:bold;
+          text-shadow:0 0 5px #FFFFFF;
+        }
 
+
+        .one{
+          
+	-webkit-animation: text-shadow-drop-center 0.6s cubic-bezier(0.175, 0.885, 0.320, 1.275) infinite alternate both;
+  animation: text-shadow-drop-center 0.6s cubic-bezier(0.175, 0.885, 0.320, 1.275) infinite alternate both;
+        }
+        .two{
+
+          -webkit-animation: text-shadow-drop-center 0.6s cubic-bezier(0.175, 0.885, 0.320, 1.275) 0.3s infinite alternate both;
+	        animation: text-shadow-drop-center 0.6s cubic-bezier(0.175, 0.885, 0.320, 1.275) 0.3s infinite alternate both;
+        }
+
+        .tree{
+
+          -webkit-animation: text-shadow-drop-center 0.6s cubic-bezier(0.175, 0.885, 0.320, 1.275) 0.6s infinite alternate both;
+	        animation: text-shadow-drop-center 0.6s cubic-bezier(0.175, 0.885, 0.320, 1.275) 0.6s infinite alternate both;
+        }
         @media(min-width:700px){
           .header > img {
             width:30%;
             margin: 20vh calc(20%/2);
           }
-          cute-card {
-            width:30%;
-            margin:25px calc(9%/6);
-            display:inline-block;
-          }
+          .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr;
+            grid-column-gap: 20px;
+            grid-row-gap: 20px;
+            justify-items: stretch;
+            align-items: stretch;
+         }
         }
         @media(min-width:1024px){
           .header > img {
             width:25%;
             margin: 20vh calc(20%/2);
-          }
-          cute-card {
-            width:29%;
-            display:inline-block;
           }
         }
         @media(min-width:1440px){
@@ -101,38 +169,32 @@ class Home extends PolymerElement {
         <img src="images/anfas1.png" />
       </div>
 
-      
+      <div class="container">
       <cute-card animated>
-        <div class="img"></div>
-        <img src="images/IMG_1.jpg" class="image"/>
+        <img src="images/IMG_1.jpg"/>
         <div class="card-content">
         <h1>چشم انداز</h1>
         <p>توسعه فردی متوازن در تمام ابعاد زندگی</p>
-        <br /><br /><br /><br /><br /><br />
-        </div>
-        <div class="card-action">
-        <paper-button>بیشتر</paper-button>
         </div>
       </cute-card>
 
       
       <cute-card animated>
-      <div class="img"></div>
-      <img src="images/IMG_2.jpg"  class="image"/>
+      <img src="images/IMG_2.jpg" />
       <div class="card-content">
         <h1>ماموریت</h1>
         <p>ترویج تفکر ارزشی و فرآهم کردن فرصت کسب مهارت های اساسی زندگی بر پایه خودآگاهی و درک رابطه خود با جهان هستی</p>
-        <br /><br /><br /><br /><br />
-        </div>
-        <div class="card-action">
-        <paper-button>بیشتر</paper-button>
+        <ul>
+        <li> <a href="arzesh" class="one">تفکر ارزشی</a> </li>
+        <li> <a href="maharat" class="two">مهارت های زندگی</a> </li>
+        <li> <a href="know" class="tree">خودآگاهی و درک رابطه خود با جهان هستی</a> </li>
+        </ul>
         </div>
       </cute-card>
 
       
       <cute-card animated>
-      <div class="img"></div>
-      <img src="images/IMG_3.jpg"  class="image"/>
+      <img src="images/IMG_3.jpg"/>
       <div class="card-content">
         <h1>اهداف</h1>
         <p>کاهش آسیب های اجتماعی بحرانی با ارائه و اجرای راه حل ها در حوزه آسیب های اجتماعی بنیادین 
@@ -141,18 +203,32 @@ class Home extends PolymerElement {
    <br />     ارائه و آموزش شیوه های مدرن تغییر و توسعه فردی 
    <br />     آموزش مهارت های اساسی زندگی به کودکان و نوجوانان از طریق تغییر رفتار والدین</p>
       </div>
-      <div class="card-action">
-      <paper-button>بیشتر</paper-button>
-      </div>
       </cute-card>
-
+</div>
 
 
       <h2>کارگاه های اموزشی</h2>
-      <edu-page></edu-page>
+      <part-page></part-page>
+
+
+      
+      <app-localstorage-document key="mession" data="{{introduction}}">
+      </app-localstorage-document>
+<template is="dom-if" if="{{introduction}}">
+
+<div style="position:fixed; right:13px; bottom:13px;">
+<a href="arzesh" style="text-decoration:none; color:#333">
+  <paper-button on-click="mkfls" style="background-color:#EEE; box-shadow:0 0 13px #444">اشنایی با ماموریت انفاس</paper-button>
+</a>
+</div>
+
+</template>
     `;
   }
-
+mkfls(){
+  
+  this.introduction = false;
+}
   connectedCallback() {
     super.connectedCallback();
   }
